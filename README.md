@@ -10,7 +10,7 @@ Primary usage in Github actions as follows
 #### 1. Convert a local private key into a base 64 string.
 This encoding is important to take out the newline characters in a typical multiline `*.pem` file that is generated when you create the key. The long single line of base 64 encoded data is much better suited to store and retrieve as an environment variable.
 ```
-base64 private.pem
+base64 /path/to/private.pem
 ```
 #### 2. Create a Github Secret
 Defaults set `--key-env` to `DEPLOY_SIGNING_KEY_B64` so for simplest use copy the output of Step 1 into a Github Secret named `DEPLOY_SIGNING_KEY_B64`.
