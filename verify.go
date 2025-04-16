@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"time"
 
 	"github.com/golang-jwt/jwt/v5"
 )
@@ -25,9 +26,26 @@ func VerifyToken(publicKeyPath string, tokenString string) error {
 	}
 
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-		fmt.Println("Verified token claims:")
+		fmt.Println("✅ Verified token claims:")
+
 		for k, v := range claims {
-			fmt.Printf("  %s: %v\n", k, v)
+			if k == "exp" {
+				if expFloat, ok := v.(float64); ok {
+					expTime := time.Unix(int64(expFloat), 0)
+					diff := time.Until(expTime)
+					status := ""
+					if diff > 0 {
+						status = fmt.Sprintf("in %s", diff.Round(time.Second))
+					} else {
+						status = fmt.Sprintf("%s ago", -diff.Round(time.Second))
+					}
+					fmt.Printf("  exp: %s (%s)\n", expTime.Format(time.RFC1123), status)
+				} else {
+					fmt.Printf("  exp: %v (invalid type)\n", v)
+				}
+			} else {
+				fmt.Printf("  %s: %v\n", k, v)
+			}
 		}
 	} else {
 		return fmt.Errorf("invalid token")

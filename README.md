@@ -5,6 +5,14 @@ This project was built to create a tool I can pull into github actions and creat
 
 Most importantly, I can also load this tool onto the cloud instance for a webhook triggered deployment manager service and generate tokens for local testing and verfication of the handler.
 
+#### If you explicitly provide a file, it won’t look for the env var
+`jwt sign --key test-keys/private.pem`
+
+#### If you don’t pass --key and rely on the env var, it will warn clearly
+`jwt sign`
+# Sign error: env var DEPLOY_SIGNING_KEY_B64 is set as key source, but not found in environment
+
+
 ## CI Usage
 Primary usage in Github actions as follows
 #### 1. Convert a local private key into a base 64 string.
@@ -38,5 +46,11 @@ jwt sign
 ```
 openssl genpkey -algorithm RSA -out private.pem -pkeyopt rsa_keygen_bits:2048
 openssl rsa -pubout -in private.pem -out public.pem
+```
+
+Also genearate `other-priv.pem` and `other-pub.pem` so you can verify what it looks like when a token fails verification.
+```
+openssl genpkey -algorithm RSA -out other-priv.pem -pkeyopt rsa_keygen_bits:2048
+openssl rsa -pubout -in private.pem -out other-pub.pem
 ```
 

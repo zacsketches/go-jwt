@@ -62,7 +62,7 @@ func main() {
 }
 
 func printUsage() {
-	fmt.Println(`jwt - A minimal JWT sign/verify tool using RSA keys
+	fmt.Print(`jwt - A minimal JWT sign/verify tool using RSA keys
 
 Usage:
   jwt <command> [options]
