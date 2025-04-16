@@ -10,8 +10,7 @@ Most importantly, I can also load this tool onto the cloud instance for a webhoo
 
 #### If you don’t pass --key and rely on the env var, it will warn clearly
 `jwt sign`
-# Sign error: env var DEPLOY_SIGNING_KEY_B64 is set as key source, but not found in environment
-
+`Sign error: could not read key file (private.pem), and env var DEPLOY_SIGNING_KEY_B64 not set`
 
 ## CI Usage
 Primary usage in Github actions as follows
