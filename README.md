@@ -7,7 +7,8 @@ Most importantly, I can also load this tool onto the cloud instance for a webhoo
 
 ## CI Usage
 Primary usage in Github actions as follows
-#### 1. Store private.pem as a secret
+#### 1. Convert a local private key into a base 64 string.
+This encoding is important to take out the newline characters in a typical multiline `*.pem` file that is generated when you create the key. The long single line of base 64 encoded data is much better suited to store and retrieve as an environment variable.
 ```
 base64 private.pem
 ```
