@@ -22,5 +22,12 @@ go.work
 go.work.sum
 
 # env file
-.env
+.envrc
+
+# obvious one
 test-keys/
+
+# Ignore everything in /bin
+/bin/*
+# But keep .gitkeep
+!/bin/.gitkeep

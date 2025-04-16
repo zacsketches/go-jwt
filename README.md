@@ -13,9 +13,10 @@ This encoding is important to take out the newline characters in a typical multi
 base64 /path/to/private.pem
 ```
 #### 2. Create a Github Secret
-Defaults set `--key-env` to `DEPLOY_SIGNING_KEY_B64` so for simplest use copy the output of Step 1 into a Github Secret named `DEPLOY_SIGNING_KEY_B64`.
+Defaults set `-key-env` to `DEPLOY_SIGNING_KEY_B64` so for simplest use copy the output of Step 1 into a Github Secret named `DEPLOY_SIGNING_KEY_B64`.
 
-The `--iss` claim defaults to `"github-actions"` if not overridden.
+The `-iss` claim defaults to `"github-actions"` if not overridden.
+The `-exp` claim defaults to `300` seconds if not overriden.
 
 #### 3. In Github action:
 ```
@@ -26,7 +27,7 @@ The `--iss` claim defaults to `"github-actions"` if not overridden.
 ```
 
 ## Local testing use
-Usage assumes something along the lines of `go build -o jwt`.
+Usage assumes something along the lines of `go build -o /bin/jwt`, and for convenience I use `direnv` to add the `.../go-jwt/bin` folder to my path dynamically whenever I enter the `/go-jwt` project foler.
 ```
 export DEPLOY_SIGNING_KEY_B64=$(base64 < private.pem)
 jwt sign
