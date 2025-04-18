@@ -5,6 +5,13 @@ This project was built to create a tool I can pull into github actions and creat
 
 Most importantly, I can also load this tool onto a cloud instance for a webhook triggered deployment manager service and generate tokens for local testing and verfication of the handler.
 
+## Build Instructions
+The service supports a `/version` endpoint that returns the commit hash and build time.  To ensure this endpoint builds correctly use:
+```
+go build -o deploy-service \
+  -ldflags "-X main.version=$(git rev-parse --short HEAD) -X 'main.buildTime=$(TZ=America/Chicago date)'"
+```
+
 #### Normal usage is to set an environment variable called DEPLOY_SIGNING_KEY_B64 and rely on the default `iss` and `exp` times.
 `jwt sign`
 

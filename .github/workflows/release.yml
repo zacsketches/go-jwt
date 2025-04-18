@@ -1,0 +1,32 @@
+name: Release Go JWT Tool
+
+on:
+  push:
+    tags:
+      - 'v*'   # e.g. v1.0.0
+
+jobs:
+  build:
+    name: Build for Linux x86_64
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.22'
+
+      - name: Build binary
+        run: |
+          mkdir -p dist
+          GOOS=linux GOARCH=amd64 go build -o dist/sign-jwt main.go
+
+      - name: Upload release asset
+        uses: softprops/action-gh-release@v1
+        with:
+          files: dist/sign-jwt
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
