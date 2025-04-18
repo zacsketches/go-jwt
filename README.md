@@ -1,16 +1,15 @@
 # go-jwt
 Simple Go cli tool for signing and decoding jwt tokens.
 
-This project was built to create a tool I can pull into github actions and create a signed jwt to send with a webhook. The tool is opinionated about it's defaults to make usage in Github actions very simple.
+In production this tool is called in github actions and creates a signed jwt to send with a webhook. The tool is opinionated about it's defaults to make usage in Github actions very simple.
 
-Most importantly, I can also load this tool onto a cloud instance for a webhook triggered deployment manager service and generate tokens for local testing and verfication of the handler.
-
-This tool difers from other tools on github because it statically compiles the required c library for `github.com/golang-jwt/jwt/v5` into the release, and avoids this error often occurred when a wrapper to a C library like `golant-jwt` has as specific library dependency that is not installed on the cloud VM.  The error that inspired the creation of the tool was
+This tool difers from other tools on github because it statically compiles the required C library for `github.com/golang-jwt/jwt/v5` into the release, and avoids this error often occurred when a wrapper to a C library like `golang-jwt` has as specific library dependency that is not installed on a cloud VM.  The error that inspired the creation of the tool was
 ```
- /lib64/libc.so.6: version `GLIBC_2.34' not found (required by sign-jwt)
+ /lib64/libc.so.6: version `GLIBC_2.34' not found (required by github.com/golang-jwt/jwt/v5)
 ```
-This error presented on AWS Linux 2 in 2025 when the default instance is at `2.26`.
+This error presented on AWS Linux 2 in 2025 when the default instance is at `GLIBC_2.26`.
 
+In testing this tool is built to load onto a cloud instance for a webhook triggered deployment manager service because it generates tokens for local testing and verfication of the handler.
 
 #### Normal usage is to set an environment variable called DEPLOY_SIGNING_KEY_B64 and rely on the default `iss` and `exp` times.
 `jwt sign`
