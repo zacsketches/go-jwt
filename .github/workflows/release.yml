@@ -22,7 +22,7 @@ jobs:
       - name: Build binary
         run: |
           mkdir -p dist
-          GOOS=linux GOARCH=amd64 go build -o dist/sign-jwt main.go
+          GOOS=linux GOARCH=amd64 go build -o dist/sign-jwt .
 
       - name: Upload release asset
         uses: softprops/action-gh-release@v1
