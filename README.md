@@ -5,12 +5,12 @@ This project was built to create a tool I can pull into github actions and creat
 
 Most importantly, I can also load this tool onto a cloud instance for a webhook triggered deployment manager service and generate tokens for local testing and verfication of the handler.
 
-## Build Instructions
-The service supports a `/version` endpoint that returns the commit hash and build time.  To ensure this endpoint builds correctly use:
+This tool difers from other tools on github because it statically compiles the required c library for `github.com/golang-jwt/jwt/v5` into the release, and avoids this error often occurred when a wrapper to a C library like `golant-jwt` has as specific library dependency that is not installed on the cloud VM.  The error that inspired the creation of the tool was
 ```
-go build -o deploy-service \
-  -ldflags "-X main.version=$(git rev-parse --short HEAD) -X 'main.buildTime=$(TZ=America/Chicago date)'"
+ /lib64/libc.so.6: version `GLIBC_2.34' not found (required by sign-jwt)
 ```
+This error presented on AWS Linux 2 in 2025 when the default instance is at `2.26`.
+
 
 #### Normal usage is to set an environment variable called DEPLOY_SIGNING_KEY_B64 and rely on the default `iss` and `exp` times.
 `jwt sign`
