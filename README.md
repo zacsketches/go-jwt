@@ -1,9 +1,12 @@
 # go-jwt
-Simple Go cli tool for signing **and decoding** jwt tokens.
+Simple Go cli tool for signing and decoding jwt tokens.
 
 This project was built to create a tool I can pull into github actions and create a signed jwt to send with a webhook. The tool is opinionated about it's defaults to make usage in Github actions very simple.
 
-Most importantly, I can also load this tool onto the cloud instance for a webhook triggered deployment manager service and generate tokens for local testing and verfication of the handler.
+Most importantly, I can also load this tool onto a cloud instance for a webhook triggered deployment manager service and generate tokens for local testing and verfication of the handler.
+
+#### Normal usage is to set an environment variable called DEPLOY_SIGNING_KEY_B64 and rely on the default `iss` and `exp` times.
+`jwt sign`
 
 #### If you explicitly provide a file, it won’t look for the env var
 `jwt sign --key test-keys/private.pem`
