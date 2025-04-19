@@ -23,10 +23,21 @@ release:
 	@echo "📦 Last 3 release tags:"
 	@git tag --sort=-creatordate | head -n 3 || echo "(no tags yet)"
 	@echo ""
-	@read -p "Enter new release tag (e.g. v0.1.0): " tag; \
-	if [ -z "$$tag" ]; then \
-		echo "❌ Tag cannot be empty."; exit 1; \
+
+	@latest=$$(git tag --sort=-creatordate | head -n 1); \
+	if [ -z "$$latest" ]; then \
+		suggested="v0.1.0"; \
+	else \
+		ver=$$(echo $$latest | sed 's/^v//'); \
+		major=$$(echo $$ver | cut -d. -f1); \
+		minor=$$(echo $$ver | cut -d. -f2); \
+		patch=$$(echo $$ver | cut -d. -f3); \
+		patch=$$((patch + 1)); \
+		suggested="v$${major}.$${minor}.$${patch}"; \
 	fi; \
+	echo "💡 Suggested next tag: $$suggested"; \
+	read -p "Enter new release tag [default $$suggested]: " tag; \
+	tag=$${tag:-$$suggested}; \
 	if git tag | grep -q "^$$tag$$"; then \
 		echo "❌ Tag '$$tag' already exists."; exit 1; \
 	fi; \

@@ -23,13 +23,16 @@ jobs:
         run: |
           mkdir -p dist
           CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
-            go build -o dist/jwt \
+            go build -o dist/jwt-linux-amd64 \
             -ldflags "-X main.version=$(git describe --tags --always) -X 'main.buildTime=$(TZ=America/Chicago date)'" \
             .
 
+      - name: Show version output
+        run: ./dist/jwt version
+    
       - name: Upload release asset
         uses: softprops/action-gh-release@v1
         with:
-          files: dist/jwt
+          files: dist/jwt-linux-amd64
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
