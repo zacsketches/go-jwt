@@ -6,6 +6,11 @@ import (
 	"os"
 )
 
+var (
+	version   = "dev"
+	buildTime = "unknown"
+)
+
 func main() {
 	if len(os.Args) < 2 || os.Args[1] == "-h" || os.Args[1] == "--help" {
 		printUsage()
@@ -13,6 +18,9 @@ func main() {
 	}
 
 	switch os.Args[1] {
+	case "version":
+		fmt.Printf("Version: %s\nBuilt:   %s\n", version, buildTime)
+
 	case "sign":
 		signCmd := flag.NewFlagSet("sign", flag.ExitOnError)
 		keyPath := signCmd.String("key", "private.pem", "Path to RSA private key file")
@@ -68,9 +76,24 @@ Usage:
   jwt <command> [options]
 
 Available commands:
-  sign      Create and sign a JWT with RS256
-  verify    Verify a JWT and display its claims
+  sign      Create a JWT using a private RSA key
+  verify    Validate a JWT against a public RSA key
+  version   Show the build version and timestamp
 
-Use "jwt <command> -h" for more information about a command.
+sign options:
+  --key <file>          Path to RSA private key PEM file
+  --env-key <var>       Name of env var holding base64-encoded private key
+  --iss <string>        Issuer claim (default: "github-actions")
+  --exp <int>           Expiration time in seconds (default: 300)
+  
+verify options:
+  --key <file>          Path to RSA public key PEM file
+  --env-key <var>       Name of env var holding base64-encoded public key
+  --token <string>      JWT to verify
+
+Examples:
+  jwt sign --key private.pem --iss my-service --exp 10
+  jwt verify --key public.pem --token <token>
+  jwt version
 `)
 }
