@@ -20,10 +20,20 @@ local:
 
 ## ☁️ Build for AWS Linux 2 (static Linux binary)
 release:
-	@echo "📦 Building for AWS Linux (static)..."
-	mkdir -p $(DIST_DIR)
-	GOOS=linux GOARCH=amd64 CGO_ENABLED=0 \
-	go build $(LD_FLAGS) -o $(DIST_DIR)/$(BINARY_NAME)-linux .
+	@echo "📦 Last 3 release tags:"
+	@git tag --sort=-creatordate | head -n 3 || echo "(no tags yet)"
+	@echo ""
+	@read -p "Enter new release tag (e.g. v0.1.0): " tag; \
+	if [ -z "$$tag" ]; then \
+		echo "❌ Tag cannot be empty."; exit 1; \
+	fi; \
+	if git tag | grep -q "^$$tag$$"; then \
+		echo "❌ Tag '$$tag' already exists."; exit 1; \
+	fi; \
+	echo "🏷️  Creating and pushing tag '$$tag'..."; \
+	git tag $$tag; \
+	git push origin $$tag; \
+	echo "🚀 Tag '$$tag' pushed. GitHub Actions will now build and release."
 
 ## 🧹 Clean build artifacts
 clean:
