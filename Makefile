@@ -11,12 +11,12 @@ LD_FLAGS=-ldflags "-X main.version=$(VERSION) -X 'main.buildTime=$(BUILD_TIME)'"
 
 all: local
 
-## 🔧 Build for macOS (local dev)
+## 🔧 Build for local dev
 local:
-	@echo "🔨 Building for macOS..."
+	@echo "🔨 Building for local GOARCH and GOOS..."
 	mkdir -p $(DIST_DIR)
 	CGO_ENABLED=0 \
-	go build $(LD_FLAGS) -o $(DIST_DIR)/$(BINARY_NAME)-macos .
+	go build $(LD_FLAGS) -o $(DIST_DIR)/$(BINARY_NAME) .
 
 ## ☁️ Build for AWS Linux 2 (static Linux binary)
 release:
@@ -27,4 +27,4 @@ release:
 
 ## 🧹 Clean build artifacts
 clean:
-	rm -rf $(DIST_DIR)
+	find $(DIST_DIR) -type f ! -name '.gitkeep' -delete
