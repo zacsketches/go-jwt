@@ -46,11 +46,12 @@ The `-exp` claim defaults to `300` seconds if not overriden.
 ```
 
 ## Local testing use
-Primary access is provided through releases.  If you are going to build from source then you will need to include the build flags that support the `jwt version` command and statically compile dependencies as discussed above. Releases are built with the following flags:
+Primary access is provided through releases.  See `release.yml` for release build flags targeting AWS Linux. If you are going to build from source then you will need to include the build flags that support the `jwt version` command and statically compile dependencies as discussed above. Locally, I build with the following flags:
 ```
-CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
-    go build -o bin/jwt . \
-    -ldflags "-X main.version=$(git describe --tags --always) -X 'main.buildTime=$(TZ=America/Chicago date)'"
+CGO_ENABLED=0 \
+    go build -o bin/jwt \
+    -ldflags "-X main.version=$(git describe --tags --always) -X 'main.buildTime=$(TZ=America/Chicago date)'" \
+    .
 ```
 
 Outpus above reflect my preferred  convenience of `direnv` to add the `/go-jwt/bin` folder to my path dynamically whenever I enter the `/go-jwt` root of cloned Github project. Then default usage becomes
