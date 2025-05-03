@@ -7,11 +7,11 @@ This tool difers from other tools on github because it statically compiles the r
 ```
  /lib64/libc.so.6: version `GLIBC_2.34' not found (required by github.com/golang-jwt/jwt/v5)
 ```
-This error presented on AWS Linux 2 in 2025 when the default EC2 is pre-installed with  `GLIBC_2.26`, which misses the dependency requirement of the CGO embedded library and crashed the other jwt cli tool.
+This error presented on AWS Linux 2 in 2025 when the default EC2 is pre-installed with  `GLIBC_2.26`, which misses the dependency requirement of the CGO embedded library and crashed the build.
 
 Because it is designed to run in Github Actions and in the cloud `go-jwt` allows for testing on a cloud instance with high confidence that the webhook produced by Github Actions in production will look exactly like a local jwt produced on the instance to test the webhook handler.
 
-#### Default usage is to set up for an environment variable called DEPLOY_SIGNING_KEY_B64 and relies on the default `iss` and `exp` times.
+#### Default usage is set up for an environment variable called DEPLOY_SIGNING_KEY_B64 and relies on the default `iss` and `exp` times.
 `jwt sign`
 
 #### If you explicitly provide a file, it won’t look for the env var
@@ -25,7 +25,7 @@ Because it is designed to run in Github Actions and in the cloud `go-jwt` allows
 Primary usage in Github actions as follows
 
 #### 1. Convert a local private key into a base 64 string.
-This encoding is important to take out the newline characters in a typical multiline `*.pem` file that is generated when you create the key. The long single line of base 64 encoded data is much better suited to store and retrieve as an environment variable.
+This encoding is important to take out the newline characters in a typical multiline `*.pem` file that are generated when you create the key. The long single line of base 64 encoded data is much better suited to store and retrieve as an environment variable.
 ```
 base64 /path/to/private.pem
 ```
@@ -54,7 +54,7 @@ CGO_ENABLED=0 \
     .
 ```
 
-Outpus above reflect my preferred  convenience of `direnv` to add the `/go-jwt/bin` folder to my path dynamically whenever I enter the `/go-jwt` root of cloned Github project. Then default usage becomes
+Output `-o bin/jwt` reflects my preferred convenience of `direnv` to add the `/go-jwt/bin` folder to my path dynamically whenever I enter the `/go-jwt` root of the cloned Github project. Then default usage becomes
 ```
 export DEPLOY_SIGNING_KEY_B64=$(base64 < <project root>/test-keys/private.pem)
 jwt sign
