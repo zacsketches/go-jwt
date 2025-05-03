@@ -3,7 +3,7 @@ Simple Go cli tool for signing and decoding jwt tokens.
 
 In production this tool is called in github actions and creates a signed jwt to send with a webhook. The tool is opinionated about its defaults to make usage in Github actions very simple.
 
-This tool difers from other tools on github because it statically compiles the required C library for `github.com/golang-jwt/jwt/v5` into the release, and avoids an error that often arises when a wrapper to a C library, like `golang-jwt/jwt/v4`, has as specific library dependency that is not installed on a cloud VM.  For example, the error that inspired the creation of this tool was this error when running a different jwt cli on AWS.
+This tool difers from other tools on github because it statically compiles the required C library for `github.com/golang-jwt/jwt/v5` into the release, and avoids an error that often arises when a wrapper to a C library, like `golang-jwt/jwt/v5`, has as specific library dependency that is not installed on a cloud VM.  For example, the error that inspired the creation of this tool was this error when running a different jwt cli on AWS.
 ```
  /lib64/libc.so.6: version `GLIBC_2.34' not found (required by github.com/golang-jwt/jwt/v5)
 ```
